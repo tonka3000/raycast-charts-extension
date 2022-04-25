@@ -46,11 +46,11 @@ export function AuthorChartsPerDownload(): JSX.Element {
   return (
     <List isLoading={isLoading}>
       <List.Section title={`Authors ${users?.length || 0}`}>
-        {users?.map((u) => (
+        {users?.map((u, index) => (
           <List.Item
             key={u.author.handle}
             title={u.author.name}
-            subtitle={u.author.handle}
+            subtitle={`${index + 1}.`}
             accessories={[{ text: `${compactNumberFormat(u.download_count)}` }]}
             actions={
               <ActionPanel>

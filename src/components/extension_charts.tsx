@@ -23,11 +23,12 @@ export function ExtensionChartsPerDownload(): JSX.Element {
   return (
     <List isLoading={isLoading}>
       <List.Section title={`Extensions ${extensions?.length} (${compactNumberFormat(totalInstalls)} Installs)`}>
-        {exts?.map((e) => (
+        {exts?.map((e, index) => (
           <List.Item
             key={e.id}
             icon={{ source: { light: e.icons.light || "", dark: e.icons.dark || "" } }}
             title={e.name}
+            subtitle={`${index + 1}.`}
             accessories={[{ text: `${compactNumberFormat(e.download_count)}` }]}
             actions={
               <ActionPanel>
