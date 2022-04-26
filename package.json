@@ -15,10 +15,10 @@
       "mode": "view"
     },
     {
-      "name": "extensions_today",
-      "title": "Extension Updates Today",
+      "name": "extensions_news",
+      "title": "Extension News",
       "subtitle": "Raycast",
-      "description": "Show Extension Updates from today",
+      "description": "Show Extension which are new or get updated",
       "mode": "view"
     },
     {

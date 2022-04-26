@@ -40,7 +40,7 @@ export interface Extension {
   source_url: string;
   readme_url: string;
   created_at: number;
-  updated_at: number
+  updated_at: number;
 }
 
 export interface Data {
