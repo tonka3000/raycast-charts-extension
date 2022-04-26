@@ -15,6 +15,13 @@
       "mode": "view"
     },
     {
+      "name": "extensions_today",
+      "title": "Extension Updates Today",
+      "subtitle": "Raycast",
+      "description": "Show Extension Updates from today",
+      "mode": "view"
+    },
+    {
       "name": "author_charts",
       "title": "Author Charts",
       "subtitle": "Raycast",

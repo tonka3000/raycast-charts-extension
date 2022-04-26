@@ -20,17 +20,17 @@ export function sortExtensionByDownloads(extensions: Extension[] | undefined): E
 
 export function ExtensionListItem(props: {
   extension: Extension;
-  index: number;
+  index?: number | undefined;
   authorData?: UserData | undefined;
 }): ReactElement {
   const e = props.extension;
-  const index = props.index;
+  const index = props.index !== undefined ? `${props.index + 1}.` : undefined;
   return (
     <List.Item
       key={e.id}
       icon={{ source: { light: e.icons.light || "", dark: e.icons.dark || "" } }}
       title={e.name}
-      subtitle={`${index + 1}.`}
+      subtitle={index}
       accessories={[{ text: `${compactNumberFormat(e.download_count)}` }]}
       actions={
         <ActionPanel>

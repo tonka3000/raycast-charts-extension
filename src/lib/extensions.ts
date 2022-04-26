@@ -39,6 +39,8 @@ export interface Extension {
   contributors?: User[] | undefined;
   source_url: string;
   readme_url: string;
+  created_at: number;
+  updated_at: number
 }
 
 export interface Data {
