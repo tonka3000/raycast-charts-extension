@@ -1,5 +1,5 @@
 import { Action, ActionPanel, List } from "@raycast/api";
-import { Extension, useExtensions, User } from "../lib/extensions";
+import { Extension, getUserRaycastPageURL, useExtensions, User } from "../lib/extensions";
 import { compactNumberFormat } from "../lib/utils";
 
 export interface UserExtensions {
@@ -54,7 +54,7 @@ export function AuthorChartsPerDownload(): JSX.Element {
             accessories={[{ text: `${compactNumberFormat(u.download_count)}` }]}
             actions={
               <ActionPanel>
-                <Action.OpenInBrowser url={`https://www.raycast.com/${u.author.handle}`} />
+                <Action.OpenInBrowser url={getUserRaycastPageURL(u.author)} />
               </ActionPanel>
             }
           />

@@ -6,6 +6,14 @@ export interface User {
   handle: string;
 }
 
+export interface Command {
+  id: string;
+  name: string;
+  title: string;
+  subtitle: string;
+  description: string;
+}
+
 export interface Icons {
   light: string | null | undefined;
   dark: string | null | undefined;
@@ -19,6 +27,12 @@ export interface Extension {
   owner: User;
   store_url: string;
   icons: Icons;
+  description: string;
+  categories?: string[];
+  commands: Command[];
+  contributors?: User[] | undefined;
+  source_url: string;
+  readme_url: string;
 }
 
 export interface Data {
@@ -37,4 +51,8 @@ export function useExtensions(): { extensions: Extension[] | undefined; isLoadin
   const extensions = data?.data;
 
   return { extensions, isLoading };
+}
+
+export function getUserRaycastPageURL(user: User): string {
+  return `https://www.raycast.com/${user.handle}`;
 }
