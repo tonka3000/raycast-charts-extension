@@ -4,6 +4,12 @@ import useSWR from "swr";
 export interface User {
   name: string;
   handle: string;
+  avatar?: string;
+  twitter_handle?: string | null | undefined;
+  github_handle?: string | null | undefined;
+  location?: string | null | undefined;
+  website?: string | null | undefined;
+  bio?: string | null | undefined;
 }
 
 export interface Command {
