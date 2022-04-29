@@ -113,7 +113,7 @@ function ExtensionDetail(props: { extension: Extension }): ReactElement {
   const parts: string[] = [`# ${e.name}`, e.description];
   parts.push(`## Commands (${e.commands.length})`);
   for (const cmd of e.commands) {
-    parts.push(`### ${cmd.title}\n\n${e.description}`);
+    parts.push(`### ${cmd.title}\n\n${cmd.description}`);
   }
   const md = parts.join("\n  ");
   return (
