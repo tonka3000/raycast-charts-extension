@@ -29,6 +29,17 @@
       "mode": "view"
     }
   ],
+  "preferences": [
+    {
+      "name": "showinstallscompact",
+      "type": "checkbox",
+      "label": "Show compact numbers",
+      "required": false,
+      "default": true,
+      "title": "Installs",
+      "description": "Show install numbers compact"
+    }
+  ],
   "dependencies": {
     "@raycast/api": "^1.32.1",
     "node-fetch": "^3.2.3",

@@ -1,3 +1,5 @@
+import { getPreferenceValues } from "@raycast/api";
+
 export function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : "unknown error";
 }
@@ -5,7 +7,13 @@ export function getErrorMessage(error: unknown): string {
 const fmt = new Intl.NumberFormat("en", { notation: "compact" });
 
 export function compactNumberFormat(num: number): string {
-  return fmt.format(num);
+  const prefs = getPreferenceValues();
+  const makeShort = (prefs.showinstallscompact as boolean) || false;
+  if (makeShort) {
+    return fmt.format(num);
+  } else {
+    return num.toString();
+  }
 }
 
 export function unixTimestampToDate(value: number): Date {
