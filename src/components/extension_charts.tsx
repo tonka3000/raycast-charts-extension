@@ -25,13 +25,20 @@ export function ExtensionListItem(props: {
 }): ReactElement {
   const e = props.extension;
   const index = props.index !== undefined ? `${props.index + 1}.` : undefined;
+  const growthPerc = e.growth_last_day?.download_percentage;
+  const growthInstalls = e.growth_last_day?.download_percentage;
+  const growthIcon: string | undefined = growthPerc !== undefined ? (growthPerc < 0 ? "⬇️" : "⬆️") : undefined;
+  const growthText =
+    growthPerc !== undefined && growthInstalls !== undefined
+      ? `${growthInstalls} Installs => ${growthPerc.toFixed(2)}% ${growthIcon}`
+      : undefined;
   return (
     <List.Item
       key={e.id}
       icon={{ source: { light: e.icons.light || "", dark: e.icons.dark || "" } }}
       title={e.name}
       subtitle={index}
-      accessories={[{ text: `${compactNumberFormat(e.download_count)}` }]}
+      accessories={[{ text: `${compactNumberFormat(e.download_count)}`, tooltip: growthText }]}
       actions={
         <ActionPanel>
           <ActionPanel.Section>
@@ -108,6 +115,20 @@ function ShowDetailAction(props: { extension: Extension }): ReactElement {
   );
 }
 
+function InstallsMetaData1Day(props: { extension: Extension }): ReactElement | null {
+  const e = props.extension;
+  const g = e.growth_last_day;
+  const text = g ? `${g.download_count} (${g.download_percentage}%)` : "no data";
+  return <Detail.Metadata.Label title="Installs Previous Day" text={text} />;
+}
+
+function InstallsMetaData7Days(props: { extension: Extension }): ReactElement | null {
+  const e = props.extension;
+  const g = e.growth_last_week;
+  const text = g ? `${g.download_count} (${g.download_percentage}%)` : "no data";
+  return <Detail.Metadata.Label title="Installs last 7 days" text={text} />;
+}
+
 function ExtensionDetail(props: { extension: Extension }): ReactElement {
   const e = props.extension;
   const parts: string[] = [`# ${e.name}`, e.description];
@@ -122,7 +143,9 @@ function ExtensionDetail(props: { extension: Extension }): ReactElement {
       metadata={
         <Detail.Metadata>
           <Detail.Metadata.Link title="Author" target={getUserRaycastPageURL(e.author)} text={e.author.name} />
-          <Detail.Metadata.Label title="Installs" text={`${e.download_count}`} />
+          <Detail.Metadata.Label title="Total Installs" text={`${e.download_count}`} />
+          <InstallsMetaData1Day extension={e} />
+          <InstallsMetaData7Days extension={e} />
           <Detail.Metadata.TagList title="Categories">
             {e.categories?.map((c) => (
               <Detail.Metadata.TagList.Item text={c} />

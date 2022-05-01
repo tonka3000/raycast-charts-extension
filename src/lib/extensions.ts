@@ -25,6 +25,11 @@ export interface Icons {
   dark: string | null | undefined;
 }
 
+export interface ExtensionGrowth {
+  download_count: number;
+  download_percentage: number;
+}
+
 export interface Extension {
   id: string;
   name: string;
@@ -41,24 +46,91 @@ export interface Extension {
   readme_url: string;
   created_at: number;
   updated_at: number;
+  growth_last_day?: ExtensionGrowth | undefined;
+  growth_last_week?: ExtensionGrowth | undefined;
 }
 
 export interface Data {
   data: Extension[];
 }
 
+export interface ExtensionHistoryState {
+  name: string;
+  created_at: number;
+  updated_at: number;
+  download_count: number;
+}
+
+function calculateHistoryDelta(
+  extName: string,
+  newer: ExtensionHistoryState[] | undefined,
+  older: ExtensionHistoryState[] | undefined
+): ExtensionGrowth | undefined {
+  if (!newer || !older || extName.length <= 0) {
+    return undefined;
+  }
+  const n = newer.find((d) => d.name === extName);
+  const o = older.find((d) => d.name === extName);
+  if (!n || !o) {
+    return undefined;
+  }
+  const growth: ExtensionGrowth = {
+    download_count: n.download_count - o.download_count,
+    download_percentage: (n.download_count / o.download_count - 1) * 100,
+  };
+  return growth;
+}
+
 async function fetchExtensions(): Promise<any> {
-  return await fetch("https://www.raycast.com/api/v1/store_listings?per_page=2000&include_native=true").then((res) =>
-    res.json()
+  const toURLDate = (date: Date): string => {
+    const dt = date.toISOString().slice(0, 10).split("-").join("/");
+    return `https://github.com/tonka3000/rc-history/blob/master/data/${dt}.json?raw=true`;
+  };
+  const fetchData = async (): Promise<ExtensionHistoryState[][]> => {
+    const now = new Date();
+    const day1 = subtractDay(now, 1);
+    const day2 = subtractDay(now, 2);
+    const day7 = subtractDay(now, 7);
+    const urls: string[] = [toURLDate(day1), toURLDate(day2), toURLDate(day7)];
+    const ddd = await Promise.all(
+      urls.map((url) =>
+        fetch(url).then((res) => {
+          if (res.ok) {
+            return res.json();
+          }
+        })
+      )
+    );
+    return ddd.map((d) => d as ExtensionHistoryState[] | []);
+  };
+  const extsData = await fetch("https://www.raycast.com/api/v1/store_listings?per_page=2000&include_native=true").then(
+    (res) => res.json()
   );
+  if (!extsData) {
+    return undefined;
+  }
+  const exts = (extsData as any).data as Extension[];
+  const history = await fetchData();
+  for (const e of exts) {
+    const lastDay = calculateHistoryDelta(e.name, history[0], history[1]);
+    e.growth_last_day = lastDay;
+    const lastWeek = calculateHistoryDelta(e.name, history[1], history[2]);
+    e.growth_last_week = lastWeek;
+  }
+  return exts;
 }
 
 export function useExtensions(): { extensions: Extension[] | undefined; isLoading: boolean } {
-  const { data, error } = useSWR<Data>("extensions", fetchExtensions);
+  const { data, error } = useSWR<Extension[] | undefined>("extensions", fetchExtensions);
   const isLoading = !data;
-  const extensions = data?.data;
-
+  const extensions = data;
   return { extensions, isLoading };
+}
+
+function subtractDay(date: Date, days: number): Date {
+  const result = new Date(date);
+  result.setDate(date.getDate() - days);
+  return result;
 }
 
 export function getUserRaycastPageURL(user: User): string {
