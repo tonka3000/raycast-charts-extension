@@ -35,7 +35,7 @@ export function ExtensionListItem(props: {
   return (
     <List.Item
       key={e.id}
-      icon={{ source: { light: e.icons.light || "", dark: e.icons.dark || "" } }}
+      icon={{ source: { light: e.icons.light || "", dark: e.icons.dark || "" }, tooltip: e.author.name }}
       title={e.name}
       subtitle={index}
       accessories={[{ text: `${compactNumberFormat(e.download_count)}`, tooltip: growthText }]}
