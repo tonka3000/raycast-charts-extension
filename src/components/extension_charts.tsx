@@ -1,5 +1,5 @@
 import { Action, ActionPanel, Detail, Icon, List } from "@raycast/api";
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import { Extension, getGrowthPercentage, getUserRaycastPageURL, useExtensions } from "../lib/extensions";
 import { compactNumberFormat } from "../lib/utils";
 import { combineUserData, ShowAuthorDetailAction, UserData } from "./author_charts";
@@ -57,15 +57,33 @@ export function ExtensionListItem(props: {
   );
 }
 
+const sortMap: Record<string, (a: Extension, b: Extension) => number> = {
+  "Total Installs": (a, b) => b.download_count - a.download_count,
+  "Last Day Installs": (a, b) => (b.growth_last_day?.download_count || 0) - (a.growth_last_day?.download_count || 0),
+  "Last Day Growth": (a, b) =>
+    (b.growth_last_day?.download_change_percentage || 0) - (a.growth_last_day?.download_change_percentage || 0),
+};
+
 export function ExtensionList(props: {
   extensions: Extension[] | undefined;
   isLoading?: boolean | undefined;
 }): ReactElement {
-  const extensions = props.extensions;
-  const totalInstalls = extensions ? extensions.reduce((total, c) => total + c.download_count, 0) : 0;
-  const usersData = combineUserData(extensions);
+  const [sortmode, setSortmode] = useState<string>("Total Installs");
+  const rawExtensions = props.extensions;
+  const totalInstalls = rawExtensions ? rawExtensions.reduce((total, c) => total + c.download_count, 0) : 0;
+  const usersData = combineUserData(rawExtensions);
+  const extensions = rawExtensions?.sort(sortMap[sortmode]);
   return (
-    <List isLoading={props.isLoading}>
+    <List
+      isLoading={props.isLoading}
+      searchBarAccessory={
+        <List.Dropdown tooltip="" onChange={setSortmode}>
+          {Object.keys(sortMap).map((k) => (
+            <List.Dropdown.Item key={k} title={k} value={k} />
+          ))}
+        </List.Dropdown>
+      }
+    >
       <List.Section title={`Extensions ${extensions?.length} (${compactNumberFormat(totalInstalls)} Installs)`}>
         {extensions?.map((e, index) => (
           <ExtensionListItem

@@ -1,5 +1,5 @@
 import { Action, ActionPanel, Detail, Icon, List } from "@raycast/api";
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import {
   Extension,
   ExtensionGrowth,
@@ -49,13 +49,30 @@ export function combineUserData(extenions: Extension[] | undefined): UserData[] 
   return ar;
 }
 
+const sortMap: Record<string, (a: UserData, b: UserData) => number> = {
+  "Total Installs": (a, b) => b.download_count - a.download_count,
+  "Last Day Installs": (a, b) => b.growth_last_day.download_count - a.growth_last_day.download_count,
+  "Last Day Growth": (a, b) =>
+    b.growth_last_day.download_change_percentage - a.growth_last_day.download_change_percentage,
+};
+
 export function AuthorChartsPerDownload(): JSX.Element {
   const { extensions, isLoading } = useExtensions();
   const usersRaw = combineUserData(extensions);
+  const [sortmode, setSortmode] = useState<string>("Total Installs");
 
-  const users = usersRaw?.sort((a, b) => b.download_count - a.download_count);
+  const users = usersRaw?.sort(sortMap[sortmode]);
   return (
-    <List isLoading={isLoading}>
+    <List
+      isLoading={isLoading}
+      searchBarAccessory={
+        <List.Dropdown tooltip="" onChange={setSortmode}>
+          {Object.keys(sortMap).map((k) => (
+            <List.Dropdown.Item key={k} title={k} value={k} />
+          ))}
+        </List.Dropdown>
+      }
+    >
       <List.Section title={`Authors ${users?.length || 0}`}>
         {users?.map((u, index) => (
           <List.Item
