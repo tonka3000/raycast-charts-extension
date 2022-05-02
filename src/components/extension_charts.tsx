@@ -26,7 +26,7 @@ export function ExtensionListItem(props: {
   const e = props.extension;
   const index = props.index !== undefined ? `${props.index + 1}.` : undefined;
   const growthPerc = e.growth_last_day?.download_percentage;
-  const growthInstalls = e.growth_last_day?.download_percentage;
+  const growthInstalls = e.growth_last_day?.download_count;
   const growthIcon: string | undefined = growthPerc !== undefined ? (growthPerc < 0 ? "⬇️" : "⬆️") : undefined;
   const growthText =
     growthPerc !== undefined && growthInstalls !== undefined
@@ -118,7 +118,7 @@ function ShowDetailAction(props: { extension: Extension }): ReactElement {
 function InstallsMetaData1Day(props: { extension: Extension }): ReactElement | null {
   const e = props.extension;
   const g = e.growth_last_day;
-  const text = g ? `${g.download_count} (${g.download_percentage}%)` : "no data";
+  const text = g ? `${g.download_count} (${g.download_percentage.toFixed(3)}%)` : "no data";
   return <Detail.Metadata.Label title="Installs Previous Day" text={text} />;
 }
 
