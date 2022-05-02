@@ -36,7 +36,7 @@ export function ExtensionListItem(props: {
     <List.Item
       key={e.id}
       icon={{ source: { light: e.icons.light || "", dark: e.icons.dark || "" }, tooltip: e.author.name }}
-      title={e.name}
+      title={e.title}
       subtitle={index}
       accessories={[{ text: `${compactNumberFormat(e.download_count)}`, tooltip: growthText }]}
       actions={
@@ -156,7 +156,7 @@ function InstallsMetaData7Days(props: { extension: Extension }): ReactElement | 
 
 function ExtensionDetail(props: { extension: Extension }): ReactElement {
   const e = props.extension;
-  const parts: string[] = [`# ${e.name}`, e.description];
+  const parts: string[] = [`# ${e.title}`, e.description];
   parts.push(`## Commands (${e.commands.length})`);
   for (const cmd of e.commands) {
     parts.push(`### ${cmd.title}\n\n${cmd.description}`);

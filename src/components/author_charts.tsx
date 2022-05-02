@@ -139,7 +139,7 @@ function AuthorDetail(props: { user: UserData }): ReactElement {
           <GitHubLink user={a} />
           <Detail.Metadata.TagList title="Extensions">
             {u.extensions?.map((e) => (
-              <Detail.Metadata.TagList.Item key={e.id} text={e.name} />
+              <Detail.Metadata.TagList.Item key={e.id} text={e.title} />
             ))}
           </Detail.Metadata.TagList>
         </Detail.Metadata>

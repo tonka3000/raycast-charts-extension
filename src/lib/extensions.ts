@@ -46,6 +46,7 @@ export interface Extension {
   readme_url: string;
   created_at: number;
   updated_at: number;
+  title: string;
   growth_last_day?: ExtensionGrowth | undefined;
   growth_last_week?: ExtensionGrowth | undefined;
 }
