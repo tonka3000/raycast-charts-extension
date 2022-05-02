@@ -71,6 +71,9 @@ export function ExtensionList(props: {
   const [sortmode, setSortmode] = useState<string>("Total Installs");
   const rawExtensions = props.extensions;
   const totalInstalls = rawExtensions ? rawExtensions.reduce((total, c) => total + c.download_count, 0) : 0;
+  const installsLastDay = rawExtensions
+    ? rawExtensions.reduce((total, c) => total + (c.growth_last_day?.download_count || 0), 0)
+    : 0;
   const usersData = combineUserData(rawExtensions);
   const extensions = rawExtensions?.sort(sortMap[sortmode]);
   return (
@@ -84,7 +87,11 @@ export function ExtensionList(props: {
         </List.Dropdown>
       }
     >
-      <List.Section title={`Extensions ${extensions?.length} (${compactNumberFormat(totalInstalls)} Installs)`}>
+      <List.Section
+        title={`Extensions ${extensions?.length} (${compactNumberFormat(
+          totalInstalls
+        )} Installs, yesterday +${installsLastDay})`}
+      >
         {extensions?.map((e, index) => (
           <ExtensionListItem
             extension={e}
