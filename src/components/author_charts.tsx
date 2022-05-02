@@ -1,12 +1,20 @@
 import { Action, ActionPanel, Detail, Icon, List } from "@raycast/api";
 import { ReactElement } from "react";
-import { Extension, getUserRaycastPageURL, useExtensions, User } from "../lib/extensions";
+import {
+  Extension,
+  ExtensionGrowth,
+  getGrowthPercentage,
+  getUserRaycastPageURL,
+  useExtensions,
+  User,
+} from "../lib/extensions";
 import { compactNumberFormat } from "../lib/utils";
 import { ExtensionList, sortExtensionByDownloads } from "./extension_charts";
 
 export interface UserData {
   author: User;
   download_count: number;
+  growth_last_day: ExtensionGrowth;
   extensions: Extension[];
 }
 
@@ -20,12 +28,18 @@ export function combineUserData(extenions: Extension[] | undefined): UserData[] 
     const h = e.author.handle;
     if (h in result) {
       result[h].download_count += e.download_count;
+      result[h].growth_last_day.download_count += e.growth_last_day?.download_count || 0;
+      result[h].growth_last_day.download_change_percentage *= e.growth_last_day?.download_change_percentage || 1;
       result[h].extensions.push(e);
     } else {
       result[h] = {
         author: a,
         download_count: e.download_count,
         extensions: [e],
+        growth_last_day: {
+          download_count: e.growth_last_day?.download_count || 0,
+          download_change_percentage: e.growth_last_day?.download_change_percentage || 1,
+        },
       };
     }
   }
@@ -49,7 +63,14 @@ export function AuthorChartsPerDownload(): JSX.Element {
             title={u.author.name}
             subtitle={`${index + 1}.`}
             icon={{ source: u.author.avatar || "" }}
-            accessories={[{ text: `${compactNumberFormat(u.download_count)}` }]}
+            accessories={[
+              {
+                text: `${compactNumberFormat(u.download_count)}`,
+                tooltip: `${u.growth_last_day.download_count} Installs (+${getGrowthPercentage(
+                  u.growth_last_day
+                )?.toFixed(2)}%)`,
+              },
+            ]}
             actions={
               <ActionPanel>
                 <ShowAuthorDetailAction user={u} />

@@ -27,7 +27,7 @@ export interface Icons {
 
 export interface ExtensionGrowth {
   download_count: number;
-  download_percentage: number;
+  download_change_percentage: number;
 }
 
 export interface Extension {
@@ -76,9 +76,16 @@ function calculateHistoryDelta(
   }
   const growth: ExtensionGrowth = {
     download_count: n.download_count - o.download_count,
-    download_percentage: (n.download_count / o.download_count - 1) * 100,
+    download_change_percentage: n.download_count / o.download_count,
   };
   return growth;
+}
+
+export function getGrowthPercentage(growth: ExtensionGrowth | undefined): number | undefined {
+  if (!growth) {
+    return undefined;
+  }
+  return (growth.download_change_percentage - 1) * 100;
 }
 
 async function fetchExtensions(): Promise<any> {

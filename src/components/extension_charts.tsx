@@ -1,6 +1,6 @@
 import { Action, ActionPanel, Detail, Icon, List } from "@raycast/api";
 import { ReactElement } from "react";
-import { Extension, getUserRaycastPageURL, useExtensions } from "../lib/extensions";
+import { Extension, getGrowthPercentage, getUserRaycastPageURL, useExtensions } from "../lib/extensions";
 import { compactNumberFormat } from "../lib/utils";
 import { combineUserData, ShowAuthorDetailAction, UserData } from "./author_charts";
 
@@ -25,12 +25,12 @@ export function ExtensionListItem(props: {
 }): ReactElement {
   const e = props.extension;
   const index = props.index !== undefined ? `${props.index + 1}.` : undefined;
-  const growthPerc = e.growth_last_day?.download_percentage;
+  const growthPerc = getGrowthPercentage(e.growth_last_day);
   const growthInstalls = e.growth_last_day?.download_count;
   const growthIcon: string | undefined = growthPerc !== undefined ? (growthPerc < 0 ? "⬇️" : "⬆️") : undefined;
   const growthText =
     growthPerc !== undefined && growthInstalls !== undefined
-      ? `${growthInstalls} Installs => ${growthPerc.toFixed(2)}% ${growthIcon}`
+      ? `${growthInstalls} Installs (+${growthPerc.toFixed(2)}%) ${growthIcon}`
       : undefined;
   return (
     <List.Item
@@ -118,14 +118,14 @@ function ShowDetailAction(props: { extension: Extension }): ReactElement {
 function InstallsMetaData1Day(props: { extension: Extension }): ReactElement | null {
   const e = props.extension;
   const g = e.growth_last_day;
-  const text = g ? `${g.download_count} (${g.download_percentage.toFixed(3)}%)` : "no data";
+  const text = g ? `${g.download_count} (+${getGrowthPercentage(g)?.toFixed(3)}%)` : "no data";
   return <Detail.Metadata.Label title="Installs Previous Day" text={text} />;
 }
 
 function InstallsMetaData7Days(props: { extension: Extension }): ReactElement | null {
   const e = props.extension;
   const g = e.growth_last_week;
-  const text = g ? `${g.download_count} (${g.download_percentage}%)` : "no data";
+  const text = g ? `${g.download_count} (+${getGrowthPercentage(g)?.toFixed(3)}%)` : "no data";
   return <Detail.Metadata.Label title="Installs last 7 days" text={text} />;
 }
 
