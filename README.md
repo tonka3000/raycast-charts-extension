@@ -41,8 +41,8 @@ Checkout charts about Raycast store extensions and authors.
 
 ## Features
 
-- Extension Charts (by total extension installs)
-- Author Charts (by total extension installs of all author extensions)
+- Extension Charts (by total extension installs, last day installs and last day growth)
+- Author Charts (by total extension installs of all author extensions, last day installs and last day growth)
 
 ## Icon
 Command icons are provided by <a href="https://www.flaticon.com/free-icons/statistics" title="statistics icons">Statistics icons created by Freepik - Flaticon</a>
@@ -52,7 +52,12 @@ This extension use the private API of the Raycast store. This can break anytime.
 
 This is also the reason that this extension is not available in the official raycast extension store.
 
+## Prerequisites
+- Node 16.x
+- Raycast >= 1.33
+
 ## How to install
+There are multiple ways to do that, but the easiest way is ...
 
 1. `npm ci`
 2. `npm run dev`

@@ -137,7 +137,7 @@ function AuthorDetail(props: { user: UserData }): ReactElement {
           <WebsiteLink user={a} />
           <TwitterLink user={a} />
           <GitHubLink user={a} />
-          <Detail.Metadata.TagList title="Extensions">
+          <Detail.Metadata.TagList title={`Extensions (${u.extensions.length})`}>
             {u.extensions?.map((e) => (
               <Detail.Metadata.TagList.Item key={e.id} text={e.title} />
             ))}

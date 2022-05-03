@@ -27,10 +27,9 @@ export function ExtensionListItem(props: {
   const index = props.index !== undefined ? `${props.index + 1}.` : undefined;
   const growthPerc = getGrowthPercentage(e.growth_last_day);
   const growthInstalls = e.growth_last_day?.download_count;
-  const growthIcon: string | undefined = growthPerc !== undefined ? (growthPerc < 0 ? "⬇️" : "⬆️") : undefined;
   const growthText =
     growthPerc !== undefined && growthInstalls !== undefined
-      ? `${growthInstalls} Installs (+${growthPerc.toFixed(2)}%) ${growthIcon}`
+      ? `${growthInstalls} Installs (+${growthPerc.toFixed(2)}%)`
       : undefined;
   return (
     <List.Item
@@ -38,7 +37,10 @@ export function ExtensionListItem(props: {
       icon={{ source: { light: e.icons.light || "", dark: e.icons.dark || "" }, tooltip: e.author.name }}
       title={e.title}
       subtitle={index}
-      accessories={[{ text: `${compactNumberFormat(e.download_count)}`, tooltip: growthText }]}
+      accessories={[
+        { icon: Icon.Download, text: `${compactNumberFormat(e.download_count)}`, tooltip: growthText },
+        { icon: e.author.avatar || Icon.Person, tooltip: e.author.name },
+      ]}
       actions={
         <ActionPanel>
           <ActionPanel.Section>
