@@ -15,6 +15,7 @@ export interface UserData {
   author: User;
   download_count: number;
   growth_last_day: ExtensionGrowth;
+  growth_last_week: ExtensionGrowth;
   extensions: Extension[];
 }
 
@@ -30,6 +31,8 @@ export function combineUserData(extenions: Extension[] | undefined): UserData[] 
       result[h].download_count += e.download_count;
       result[h].growth_last_day.download_count += e.growth_last_day?.download_count || 0;
       result[h].growth_last_day.download_change_percentage *= e.growth_last_day?.download_change_percentage || 1;
+      result[h].growth_last_week.download_count += e.growth_last_week?.download_count || 0;
+      result[h].growth_last_week.download_change_percentage *= e.growth_last_week?.download_change_percentage || 1;
       result[h].extensions.push(e);
     } else {
       result[h] = {
@@ -39,6 +42,10 @@ export function combineUserData(extenions: Extension[] | undefined): UserData[] 
         growth_last_day: {
           download_count: e.growth_last_day?.download_count || 0,
           download_change_percentage: e.growth_last_day?.download_change_percentage || 1,
+        },
+        growth_last_week: {
+          download_count: e.growth_last_week?.download_count || 0,
+          download_change_percentage: e.growth_last_week?.download_change_percentage || 1,
         },
       };
     }
@@ -54,6 +61,9 @@ const sortMap: Record<string, (a: UserData, b: UserData) => number> = {
   "Last Day Installs": (a, b) => b.growth_last_day.download_count - a.growth_last_day.download_count,
   "Last Day Growth": (a, b) =>
     b.growth_last_day.download_change_percentage - a.growth_last_day.download_change_percentage,
+  "Last Week Installs": (a, b) => b.growth_last_week.download_count - a.growth_last_week.download_count,
+  "Last Week Growth": (a, b) =>
+    b.growth_last_week.download_change_percentage - a.growth_last_week.download_change_percentage,
 };
 
 export function AuthorChartsPerDownload(): JSX.Element {
@@ -137,6 +147,8 @@ function AuthorDetail(props: { user: UserData }): ReactElement {
           <WebsiteLink user={a} />
           <TwitterLink user={a} />
           <GitHubLink user={a} />
+          <InstallsMetaData1Day user={u} />
+          <InstallsMetaData7Day user={u} />
           <Detail.Metadata.TagList title={`Extensions (${u.extensions.length})`}>
             {u.extensions?.map((e) => (
               <Detail.Metadata.TagList.Item key={e.id} text={e.title} />
@@ -158,6 +170,38 @@ function RaycastLink(props: { user: User }): ReactElement | null {
   const user = props.user;
   if (user.handle) {
     return <Detail.Metadata.Link title="Username" text={user.handle} target={getUserRaycastPageURL(user)} />;
+  } else {
+    return null;
+  }
+}
+
+function InstallsMetaData1Day(props: { user: UserData }): ReactElement | null {
+  const user = props.user;
+  if (user.growth_last_day !== undefined) {
+    return (
+      <Detail.Metadata.Label
+        title="Installs Previous Day"
+        text={`${user.growth_last_day.download_count} (+${user.growth_last_day.download_change_percentage.toFixed(
+          3
+        )}%)`}
+      />
+    );
+  } else {
+    return null;
+  }
+}
+
+function InstallsMetaData7Day(props: { user: UserData }): ReactElement | null {
+  const user = props.user;
+  if (user.growth_last_day !== undefined) {
+    return (
+      <Detail.Metadata.Label
+        title="Installs last 7 days"
+        text={`${user.growth_last_week.download_count} (+${user.growth_last_week.download_change_percentage.toFixed(
+          3
+        )}%)`}
+      />
+    );
   } else {
     return null;
   }

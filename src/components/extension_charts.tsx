@@ -64,6 +64,9 @@ const sortMap: Record<string, (a: Extension, b: Extension) => number> = {
   "Last Day Installs": (a, b) => (b.growth_last_day?.download_count || 0) - (a.growth_last_day?.download_count || 0),
   "Last Day Growth": (a, b) =>
     (b.growth_last_day?.download_change_percentage || 0) - (a.growth_last_day?.download_change_percentage || 0),
+  "Last Week Installs": (a, b) => (b.growth_last_week?.download_count || 0) - (a.growth_last_week?.download_count || 0),
+  "Last Week Growth": (a, b) =>
+    (b.growth_last_week?.download_change_percentage || 0) - (a.growth_last_week?.download_change_percentage || 0),
 };
 
 export function ExtensionList(props: {
