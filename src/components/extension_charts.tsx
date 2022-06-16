@@ -33,8 +33,14 @@ export function ExtensionListItem(props: {
       : undefined;
   return (
     <List.Item
-      key={e.id}
-      icon={{ source: { light: e.icons.light || "", dark: e.icons.dark || "" }, tooltip: e.author.name }}
+      icon={
+        e.icons
+          ? {
+              value: { source: { light: e.icons?.light || "", dark: e.icons?.dark || "" } },
+              tooltip: e.author?.name || "",
+            }
+          : undefined
+      }
       title={e.title}
       subtitle={index}
       accessories={[
@@ -99,6 +105,7 @@ export function ExtensionList(props: {
       >
         {extensions?.map((e, index) => (
           <ExtensionListItem
+            key={e.id}
             extension={e}
             index={index}
             authorData={usersData?.find((u) => u.author.handle === e.author.handle)}

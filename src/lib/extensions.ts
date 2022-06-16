@@ -37,7 +37,7 @@ export interface Extension {
   author: User;
   owner: User;
   store_url: string;
-  icons: Icons;
+  icons: Icons | undefined;
   description: string;
   categories?: string[];
   commands: Command[];

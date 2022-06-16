@@ -73,12 +73,20 @@ export function ExtensionUpdatesToday(): JSX.Element {
     >
       <List.Section title={`New (${newExts?.length})`}>
         {newExts?.map((e) => (
-          <ExtensionListItem extension={e} authorData={usersData?.find((u) => u.author.handle === e.author.handle)} />
+          <ExtensionListItem
+            key={e.id}
+            extension={e}
+            authorData={usersData?.find((u) => u.author.handle === e.author.handle)}
+          />
         ))}
       </List.Section>
       <List.Section title={`Updated (${updatedExts?.length})`}>
         {updatedExts?.map((e) => (
-          <ExtensionListItem extension={e} authorData={usersData?.find((u) => u.author.handle === e.author.handle)} />
+          <ExtensionListItem
+            key={e.id}
+            extension={e}
+            authorData={usersData?.find((u) => u.author.handle === e.author.handle)}
+          />
         ))}
       </List.Section>
     </List>
