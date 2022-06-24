@@ -1,4 +1,6 @@
 import { Action, ActionPanel, Detail, Icon, List } from "@raycast/api";
+import plot from "simple-ascii-chart";
+import { Coordinates } from "simple-ascii-chart/dist/types";
 import { ReactElement, useState } from "react";
 import { Extension, getGrowthPercentage, getUserRaycastPageURL, useExtensions } from "../lib/extensions";
 import { compactNumberFormat } from "../lib/utils";
@@ -166,9 +168,36 @@ function InstallsMetaData7Days(props: { extension: Extension }): ReactElement | 
   return <Detail.Metadata.Label title="Installs last 7 days" text={text} />;
 }
 
+function getDownloadsGraph(extension: Extension): string | undefined {
+  if (!extension.previous_days_downloads || extension.previous_days_downloads.length < 2) {
+    return undefined;
+  }
+  const codefence = (text: string): string => {
+    return "```\n" + text + "\n```";
+  };
+  const coords: Coordinates = extension.previous_days_downloads.map((v, i) => [i, v]);
+  const chart = plot(coords, {
+    height: 12,
+    width: 60,
+    hideXAxis: true,
+    formatter: (value) => {
+      if (Math.abs(value) > 1000) {
+        return `${Math.round(value / 1000)}k`;
+      }
+      return value;
+    },
+  });
+  return codefence(chart);
+}
+
 function ExtensionDetail(props: { extension: Extension }): ReactElement {
   const e = props.extension;
+
   const parts: string[] = [`# ${e.title}`, e.description];
+  const downloadGraph = getDownloadsGraph(e);
+  if (downloadGraph) {
+    parts.push(downloadGraph);
+  }
   parts.push(`## Commands (${e.commands.length})`);
   for (const cmd of e.commands) {
     parts.push(`### ${cmd.title}\n\n${cmd.description}`);
@@ -184,8 +213,8 @@ function ExtensionDetail(props: { extension: Extension }): ReactElement {
           <InstallsMetaData1Day extension={e} />
           <InstallsMetaData7Days extension={e} />
           <Detail.Metadata.TagList title="Categories">
-            {e.categories?.map((c) => (
-              <Detail.Metadata.TagList.Item text={c} />
+            {e.categories?.map((c, i) => (
+              <Detail.Metadata.TagList.Item key={i} text={c} />
             ))}
           </Detail.Metadata.TagList>
           <Detail.Metadata.TagList title="Contributors">

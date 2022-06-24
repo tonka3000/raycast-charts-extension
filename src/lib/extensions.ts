@@ -49,6 +49,7 @@ export interface Extension {
   title: string;
   growth_last_day?: ExtensionGrowth | undefined;
   growth_last_week?: ExtensionGrowth | undefined;
+  previous_days_downloads?: number[];
 }
 
 export interface Data {
@@ -60,6 +61,11 @@ export interface ExtensionHistoryState {
   created_at: number;
   updated_at: number;
   download_count: number;
+}
+
+export interface ExtensionMetaInfo {
+  name: string;
+  previous_days_downloads?: number[];
 }
 
 function calculateHistoryDelta(
@@ -90,9 +96,10 @@ export function getGrowthPercentage(growth: ExtensionGrowth | undefined): number
 }
 
 async function fetchExtensions(): Promise<any> {
+  const historyBaseURL = "https://github.com/tonka3000/rc-history/blob/master";
   const toURLDate = (date: Date): string => {
     const dt = date.toISOString().slice(0, 10).split("-").join("/");
-    return `https://github.com/tonka3000/rc-history/blob/master/data/${dt}.json?raw=true`;
+    return `${historyBaseURL}/data/${dt}.json?raw=true`;
   };
   const fetchData = async (): Promise<ExtensionHistoryState[][]> => {
     const now = new Date();
@@ -125,6 +132,20 @@ async function fetchExtensions(): Promise<any> {
     const lastWeek = calculateHistoryDelta(e.name, history[1], history[2]);
     e.growth_last_week = lastWeek;
   }
+
+  const extsMetaInfo = await fetch(`${historyBaseURL}/extensions.json?raw=true`).then((res) =>
+    res.ok ? res.json() : undefined
+  );
+  if (extsMetaInfo) {
+    const infos = extsMetaInfo as ExtensionMetaInfo[];
+    for (const e of exts) {
+      const info = infos.find((el) => el.name === e.name);
+      if (info && info.previous_days_downloads) {
+        e.previous_days_downloads = [...info.previous_days_downloads, e.download_count];
+      }
+    }
+  }
+
   return exts;
 }
 
