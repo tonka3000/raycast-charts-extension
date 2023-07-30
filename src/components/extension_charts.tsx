@@ -128,7 +128,7 @@ function OpenReadmeInBrowserAction(props: { extension: Extension }): ReactElemen
   return (
     <Action.OpenInBrowser
       title="Open Readme in Browser"
-      icon={{ source: Icon.TextDocument }}
+      icon={{ source: Icon.BlankDocument }}
       url={props.extension.readme_url}
     />
   );
