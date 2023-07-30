@@ -1,10 +1,10 @@
 import { Action, ActionPanel, Detail, Icon, List } from "@raycast/api";
-import plot from "simple-ascii-chart";
-import { Coordinates } from "simple-ascii-chart/dist/types";
 import { ReactElement, useState } from "react";
 import { Extension, getGrowthPercentage, getUserRaycastPageURL, useExtensions } from "../lib/extensions";
 import { compactNumberFormat } from "../lib/utils";
 import { combineUserData, ShowAuthorDetailAction, UserData } from "./author_charts";
+import { LineChart } from "./chart";
+import { renderSVGToTempFile, renderToBase64String } from "../lib/svg";
 
 function InstallAction(props: { extension: Extension }): JSX.Element {
   const e = props.extension;
@@ -168,41 +168,36 @@ function InstallsMetaData7Days(props: { extension: Extension }): ReactElement | 
   return <Detail.Metadata.Label title="Installs last 7 days" text={text} />;
 }
 
-function getDownloadsGraph(extension: Extension): string | undefined {
+function getDownloadsGraphSVG(extension: Extension): string | undefined {
   if (!extension.previous_days_downloads || extension.previous_days_downloads.length < 2) {
     return undefined;
   }
-  const codefence = (text: string): string => {
-    return "```\n" + text + "\n```";
-  };
-  const coords: Coordinates = extension.previous_days_downloads.map((v, i) => [i, v]);
-  const chart = plot(coords, {
-    height: 12,
-    width: 60,
-    hideXAxis: true,
-    formatter: (value) => {
-      if (Math.abs(value) > 1000) {
-        return `${Math.round(value / 1000)}k`;
-      }
-      return value;
-    },
-  });
-  return codefence(chart);
+  const xValues = extension.previous_days_downloads.map((v, i) => i);
+  const yValues = extension.previous_days_downloads.map((v) => v);
+
+  //const svgFilename = renderSVGToTempFile(<LineChart data={{ labels: xValues, datasets: [{ data: yValues }] }} />, extension.id);
+
+  //return `![](${encodeURI(svgFilename)})`
+  //return `<img alt="chart" width="400" src="file://${encodeURI(svgFilename)}" />`;
+
+  return renderToBase64String(<LineChart data={{ labels: xValues, datasets: [{ data: yValues }] }} />);
 }
 
 function ExtensionDetail(props: { extension: Extension }): ReactElement {
   const e = props.extension;
 
   const parts: string[] = [`# ${e.title}`, e.description];
-  const downloadGraph = getDownloadsGraph(e);
-  if (downloadGraph) {
-    parts.push(downloadGraph);
+  const downloadGraphSVG = getDownloadsGraphSVG(e);
+  if (downloadGraphSVG) {
+    parts.push("\n\n" + downloadGraphSVG + "\n");
   }
   parts.push(`## Commands (${e.commands.length})`);
   for (const cmd of e.commands) {
     parts.push(`### ${cmd.title}\n\n${cmd.description}`);
   }
+
   const md = parts.join("\n  ");
+
   return (
     <Detail
       markdown={md}
