@@ -50,11 +50,11 @@ Command icons are provided by <a href="https://www.flaticon.com/free-icons/stati
 ## ⚠️ Private Store API Warning
 This extension use the private API of the Raycast store. This can break anytime.
 
-This is also the reason that this extension is not available in the official raycast extension store.
+This is also the reason that this extension is not available in the official Raycast extension store.
 
 ## Prerequisites
-- Node 16.x
-- Raycast >= 1.36
+- Node 18.x
+- Raycast >= 1.56
 
 ## How to install
 There are multiple ways to do that, but the easiest way is ...
