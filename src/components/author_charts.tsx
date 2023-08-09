@@ -94,7 +94,7 @@ export function AuthorChartsPerDownload(): JSX.Element {
               {
                 text: `${compactNumberFormat(u.download_count)}`,
                 tooltip: `${u.growth_last_day.download_count} Installs (+${getGrowthPercentage(
-                  u.growth_last_day
+                  u.growth_last_day,
                 )?.toFixed(2)}%)`,
               },
             ]}
@@ -150,9 +150,7 @@ function AuthorDetail(props: { user: UserData }): ReactElement {
           <InstallsMetaData1Day user={u} />
           <InstallsMetaData7Day user={u} />
           <Detail.Metadata.TagList title={`Extensions (${u.extensions.length})`}>
-            {u.extensions?.map((e) => (
-              <Detail.Metadata.TagList.Item key={e.id} text={e.title} />
-            ))}
+            {u.extensions?.map((e) => <Detail.Metadata.TagList.Item key={e.id} text={e.title} />)}
           </Detail.Metadata.TagList>
         </Detail.Metadata>
       }
@@ -182,7 +180,7 @@ function InstallsMetaData1Day(props: { user: UserData }): ReactElement | null {
       <Detail.Metadata.Label
         title="Installs Previous Day"
         text={`${user.growth_last_day.download_count} (+${user.growth_last_day.download_change_percentage.toFixed(
-          3
+          3,
         )}%)`}
       />
     );
@@ -198,7 +196,7 @@ function InstallsMetaData7Day(props: { user: UserData }): ReactElement | null {
       <Detail.Metadata.Label
         title="Installs last 7 days"
         text={`${user.growth_last_week.download_count} (+${user.growth_last_week.download_change_percentage.toFixed(
-          3
+          3,
         )}%)`}
       />
     );

@@ -22,7 +22,7 @@ function filterToday(extensions: Extension[] | undefined): {
 
 function filterByDays(
   extensions: Extension[] | undefined,
-  days: number
+  days: number,
 ): {
   newExts: Extension[] | undefined;
   updatedExts: Extension[] | undefined;

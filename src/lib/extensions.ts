@@ -71,7 +71,7 @@ export interface ExtensionMetaInfo {
 function calculateHistoryDelta(
   extName: string,
   newer: ExtensionHistoryState[] | undefined,
-  older: ExtensionHistoryState[] | undefined
+  older: ExtensionHistoryState[] | undefined,
 ): ExtensionGrowth | undefined {
   if (!newer || !older || extName.length <= 0) {
     return undefined;
@@ -113,13 +113,13 @@ async function fetchExtensions(): Promise<any> {
           if (res.ok) {
             return res.json();
           }
-        })
-      )
+        }),
+      ),
     );
     return ddd.map((d) => d as ExtensionHistoryState[] | []);
   };
   const extsData = await fetch("https://www.raycast.com/api/v1/store_listings?per_page=2000&include_native=true").then(
-    (res) => res.json()
+    (res) => res.json(),
   );
   if (!extsData) {
     return undefined;
@@ -134,7 +134,7 @@ async function fetchExtensions(): Promise<any> {
   }
 
   const extsMetaInfo = await fetch(`${historyBaseURL}/extensions.json?raw=true`).then((res) =>
-    res.ok ? res.json() : undefined
+    res.ok ? res.json() : undefined,
   );
   if (extsMetaInfo) {
     const infos = extsMetaInfo as ExtensionMetaInfo[];

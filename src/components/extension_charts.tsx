@@ -102,7 +102,7 @@ export function ExtensionList(props: {
     >
       <List.Section
         title={`Extensions ${extensions?.length} (${compactNumberFormat(
-          totalInstalls
+          totalInstalls,
         )} Installs, yesterday +${installsLastDay})`}
       >
         {extensions?.map((e, index) => (
@@ -208,14 +208,10 @@ function ExtensionDetail(props: { extension: Extension }): ReactElement {
           <InstallsMetaData1Day extension={e} />
           <InstallsMetaData7Days extension={e} />
           <Detail.Metadata.TagList title="Categories">
-            {e.categories?.map((c, i) => (
-              <Detail.Metadata.TagList.Item key={i} text={c} />
-            ))}
+            {e.categories?.map((c, i) => <Detail.Metadata.TagList.Item key={i} text={c} />)}
           </Detail.Metadata.TagList>
           <Detail.Metadata.TagList title="Contributors">
-            {e.contributors?.map((c) => (
-              <Detail.Metadata.TagList.Item key={c.name} text={c.name} icon={c.avatar} />
-            ))}
+            {e.contributors?.map((c) => <Detail.Metadata.TagList.Item key={c.name} text={c.name} icon={c.avatar} />)}
           </Detail.Metadata.TagList>
           <Detail.Metadata.Link title="Readme" target={e.readme_url} text="Open README" />
           <Detail.Metadata.Link title="Source Code" target={e.source_url} text="View Source" />
