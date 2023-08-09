@@ -1,4 +1,4 @@
-import { Action, ActionPanel, Detail, Icon, List } from "@raycast/api";
+import { Action, ActionPanel, Detail, Icon, Image, List } from "@raycast/api";
 import { ReactElement, useState } from "react";
 import {
   Extension,
@@ -89,7 +89,7 @@ export function AuthorChartsPerDownload(): JSX.Element {
             key={u.author.handle}
             title={u.author.name}
             subtitle={`${index + 1}.`}
-            icon={{ source: u.author.avatar || "" }}
+            icon={{ source: u.author.avatar || "", mask: Image.Mask.Circle }}
             accessories={[
               {
                 text: `${compactNumberFormat(u.download_count)}`,

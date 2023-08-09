@@ -1,4 +1,4 @@
-import { Action, ActionPanel, Detail, Icon, List } from "@raycast/api";
+import { Action, ActionPanel, Detail, Icon, Image, List } from "@raycast/api";
 import { ReactElement, useState } from "react";
 import { Extension, getGrowthPercentage, getUserRaycastPageURL, useExtensions } from "../lib/extensions";
 import { compactNumberFormat } from "../lib/utils";
@@ -47,7 +47,7 @@ export function ExtensionListItem(props: {
       subtitle={index}
       accessories={[
         { icon: Icon.Download, text: `${compactNumberFormat(e.download_count)}`, tooltip: growthText },
-        { icon: e.author.avatar || Icon.Person, tooltip: e.author.name },
+        { icon: { source: e.author.avatar || Icon.Person, mask: Image.Mask.Circle }, tooltip: e.author.name },
       ]}
       actions={
         <ActionPanel>
