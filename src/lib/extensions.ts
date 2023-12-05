@@ -1,5 +1,5 @@
+import { useCachedPromise } from "@raycast/utils";
 import fetch from "node-fetch";
-import useSWR from "swr";
 
 export interface User {
   name: string;
@@ -150,9 +150,15 @@ async function fetchExtensions(): Promise<any> {
 }
 
 export function useExtensions(): { extensions: Extension[] | undefined; isLoading: boolean } {
-  const { data, error } = useSWR<Extension[] | undefined>("extensions", fetchExtensions);
-  const isLoading = !data;
-  const extensions = data;
+  const { isLoading, data: extensions } = useCachedPromise(
+    async () => {
+      return await fetchExtensions();
+    },
+    [],
+    {
+      keepPreviousData: true,
+    },
+  );
   return { extensions, isLoading };
 }
 
