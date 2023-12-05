@@ -53,7 +53,7 @@ This extension use the private API of the Raycast store. This can break anytime.
 This is also the reason that this extension is not available in the official Raycast extension store.
 
 ## Prerequisites
-- Node 18.x
+- Node 20.x
 - Raycast >= 1.62
 
 ## How to install
