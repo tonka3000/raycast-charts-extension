@@ -54,7 +54,7 @@ This is also the reason that this extension is not available in the official Ray
 
 ## Prerequisites
 - Node 18.x
-- Raycast >= 1.56
+- Raycast >= 1.62
 
 ## How to install
 There are multiple ways to do that, but the easiest way is ...
