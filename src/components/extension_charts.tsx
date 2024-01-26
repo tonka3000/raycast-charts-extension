@@ -1,10 +1,10 @@
 import { Action, ActionPanel, Detail, Icon, Image, List } from "@raycast/api";
 import { ReactElement, useState } from "react";
 import { Extension, getGrowthPercentage, getUserRaycastPageURL, useExtensions } from "../lib/extensions";
-import { compactNumberFormat } from "../lib/utils";
+import { compactNumberFormat, unixTimestampToDate } from "../lib/utils";
 import { combineUserData, ShowAuthorDetailAction, UserData } from "./author_charts";
 import { LineChart } from "./chart";
-import { renderSVGToTempFile, renderToBase64String } from "../lib/svg";
+import { renderToBase64String } from "../lib/svg";
 
 function InstallAction(props: { extension: Extension }): JSX.Element {
   const e = props.extension;
@@ -144,7 +144,7 @@ function OpenSourceInBrowserAction(props: { extension: Extension }): ReactElemen
   );
 }
 
-function ShowDetailAction(props: { extension: Extension }): ReactElement {
+export function ShowDetailAction(props: { extension: Extension }): ReactElement {
   return (
     <Action.Push
       icon={{ source: Icon.Terminal }}
@@ -215,6 +215,9 @@ function ExtensionDetail(props: { extension: Extension }): ReactElement {
           </Detail.Metadata.TagList>
           <Detail.Metadata.Link title="Readme" target={e.readme_url} text="Open README" />
           <Detail.Metadata.Link title="Source Code" target={e.source_url} text="View Source" />
+          <Detail.Metadata.Label title="API Version" text={e.api_version ?? "?"} />
+          <Detail.Metadata.Label title="Created" text={unixTimestampToDate(e.created_at).toLocaleString()} />
+          <Detail.Metadata.Label title="Updated" text={unixTimestampToDate(e.updated_at).toLocaleString()} />
         </Detail.Metadata>
       }
       actions={

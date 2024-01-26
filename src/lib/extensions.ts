@@ -50,6 +50,8 @@ export interface Extension {
   growth_last_day?: ExtensionGrowth | undefined;
   growth_last_week?: ExtensionGrowth | undefined;
   previous_days_downloads?: number[];
+  api_version?: string;
+  is_new: boolean;
 }
 
 export interface Data {
