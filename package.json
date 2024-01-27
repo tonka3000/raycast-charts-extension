@@ -10,28 +10,24 @@
     {
       "name": "extension_charts",
       "title": "Extension Charts",
-      "subtitle": "Raycast Charts",
       "description": "Charts ranked by extension installation count",
       "mode": "view"
     },
     {
       "name": "extensions_news",
       "title": "Extension News",
-      "subtitle": "Raycast Charts",
       "description": "Show extensions that are new or have been updated",
       "mode": "view"
     },
     {
       "name": "author_charts",
       "title": "Author Charts",
-      "subtitle": "Raycast Charts",
       "description": "Charts ranked by installation count of extensions authors",
       "mode": "view"
     },
     {
       "name": "store",
       "title": "Search Raycast Store",
-      "subtitle": "Raycast Charts",
       "description": "Show the Raycast Store",
       "mode": "view"
     }
