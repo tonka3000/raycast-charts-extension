@@ -2,7 +2,7 @@
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "raycast-charts",
   "title": "Raycast Charts",
-  "description": "Charts about the Raycast store",
+  "description": "Charts about the Raycast Store",
   "icon": "analytics.png",
   "author": "tonka3000",
   "license": "MIT",
@@ -10,28 +10,25 @@
     {
       "name": "extension_charts",
       "title": "Extension Charts",
-      "subtitle": "Raycast",
-      "description": "Charts ranked by extension install count",
+      "description": "Charts ranked by extension installation count",
       "mode": "view"
     },
     {
       "name": "extensions_news",
       "title": "Extension News",
-      "subtitle": "Raycast",
-      "description": "Show Extension which are new or get updated",
+      "description": "Show extensions that are new or have been updated",
       "mode": "view"
     },
     {
       "name": "author_charts",
       "title": "Author Charts",
-      "subtitle": "Raycast",
-      "description": "Charts ranked by install count of an authors extensions in total",
+      "description": "Charts ranked by installation count of extensions authors",
       "mode": "view"
     },
     {
       "name": "store",
-      "title": "Search Store",
-      "description": "Show the store",
+      "title": "Search Raycast Store",
+      "description": "Show the Raycast Store",
       "mode": "view"
     }
   ],
@@ -39,11 +36,11 @@
     {
       "name": "showinstallscompact",
       "type": "checkbox",
-      "label": "Show compact numbers",
+      "label": "Show human-readable numbers",
       "required": false,
       "default": true,
       "title": "Installs",
-      "description": "Show install numbers compact"
+      "description": "Show numbers in human-readable format"
     }
   ],
   "dependencies": {
