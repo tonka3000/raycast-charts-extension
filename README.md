@@ -10,12 +10,12 @@
     Raycast Charts - Raycast Extension
   </h1>
 
-Checkout charts about Raycast store extensions and authors.
+Check out charts about Raycast Store extensions and authors.
 
   <p>
     <a href="https://www.raycast.com/tonka3000/raycast-charts">
       <img src="https://img.shields.io/badge/Raycast-store-red.svg"
-        alt="Find this extension on the Raycast store"
+        alt="Find this extension on the Raycast Store"
       />
     </a>
     <a
@@ -48,9 +48,9 @@ Checkout charts about Raycast store extensions and authors.
 Command icons are provided by <a href="https://www.flaticon.com/free-icons/statistics" title="statistics icons">Statistics icons created by Freepik - Flaticon</a>
 
 ## ⚠️ Private Store API Warning
-This extension use the private API of the Raycast store. This can break anytime.
+This extension uses the private API of the Raycast Store. This can break at anytime.
 
-This is also the reason that this extension is not available in the official Raycast extension store.
+This is also the reason why this extension is not available in the official Raycast Store.
 
 ## Prerequisites
 - Node 20.x
