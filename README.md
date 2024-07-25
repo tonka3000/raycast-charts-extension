@@ -54,7 +54,7 @@ This is also the reason why this extension is not available in the official Rayc
 
 ## Prerequisites
 - Node 20.x
-- Raycast >= 1.62
+- Raycast >= 1.79
 
 ## How to install
 There are multiple ways to do that, but the easiest way is ...
