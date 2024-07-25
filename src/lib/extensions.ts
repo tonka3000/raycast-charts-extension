@@ -1,4 +1,4 @@
-import { useCachedPromise } from "@raycast/utils";
+import { usePromise } from "@raycast/utils";
 import fetch from "node-fetch";
 
 export interface User {
@@ -152,14 +152,12 @@ async function fetchExtensions(): Promise<any> {
 }
 
 export function useExtensions(): { extensions: Extension[] | undefined; isLoading: boolean } {
-  const { isLoading, data: extensions } = useCachedPromise(
+  const { isLoading, data: extensions } = usePromise(
+    // use usePromise instead of useCachedPromise to cut memory consumption in half
     async () => {
       return await fetchExtensions();
     },
     [],
-    {
-      keepPreviousData: true,
-    },
   );
   return { extensions, isLoading };
 }
