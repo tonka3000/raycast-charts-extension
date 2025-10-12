@@ -1,5 +1,5 @@
 import { ExtensionChartsPerDownload } from "./components/extension_charts";
 
-export default function ChartsRoot(): JSX.Element {
+export default function ChartsRoot() {
   return <ExtensionChartsPerDownload />;
 }

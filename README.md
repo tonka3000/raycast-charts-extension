@@ -53,8 +53,9 @@ This extension uses the private API of the Raycast Store. This can break at anyt
 This is also the reason why this extension is not available in the official Raycast Store.
 
 ## Prerequisites
-- Node 20.x
-- Raycast >= 1.79
+- Node 22.x
+- Raycast >= 1.100
+- Windows or MacOS
 
 ## How to install
 There are multiple ways to do that, but the easiest way is ...

@@ -97,6 +97,7 @@ export function getGrowthPercentage(growth: ExtensionGrowth | undefined): number
   return (growth.download_change_percentage - 1) * 100;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function fetchExtensions(): Promise<any> {
   const historyBaseURL = "https://github.com/tonka3000/rc-history/blob/master";
   const toURLDate = (date: Date): string => {
@@ -126,6 +127,7 @@ async function fetchExtensions(): Promise<any> {
   if (!extsData) {
     return undefined;
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const exts = (extsData as any).data as Extension[];
   const history = await fetchData();
   for (const e of exts) {
