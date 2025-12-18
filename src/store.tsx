@@ -131,7 +131,9 @@ export default function StoreCommand() {
         />
       }
     >
-      {extensions?.map((e) => <ExtensionItem key={e.id} extension={e} />)}
+      {extensions?.map((e) => (
+        <ExtensionItem key={e.id} extension={e} />
+      ))}
     </List>
   );
 }

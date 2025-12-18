@@ -46,6 +46,7 @@ export function ExtensionListItem(props: {
       title={e.title}
       subtitle={index}
       accessories={[
+        { text: e.platforms ? e.platforms.join(", ") : "macOS" },
         { icon: Icon.Download, text: `${compactNumberFormat(e.download_count)}`, tooltip: growthText },
         { icon: { source: e.author.avatar || Icon.Person, mask: Image.Mask.Circle }, tooltip: e.author.name },
       ]}
@@ -208,10 +209,14 @@ function ExtensionDetail(props: { extension: Extension }): ReactElement {
           <InstallsMetaData1Day extension={e} />
           <InstallsMetaData7Days extension={e} />
           <Detail.Metadata.TagList title="Categories">
-            {e.categories?.map((c, i) => <Detail.Metadata.TagList.Item key={i} text={c} />)}
+            {e.categories?.map((c, i) => (
+              <Detail.Metadata.TagList.Item key={i} text={c} />
+            ))}
           </Detail.Metadata.TagList>
           <Detail.Metadata.TagList title="Contributors">
-            {e.contributors?.map((c) => <Detail.Metadata.TagList.Item key={c.name} text={c.name} icon={c.avatar} />)}
+            {e.contributors?.map((c) => (
+              <Detail.Metadata.TagList.Item key={c.name} text={c.name} icon={c.avatar} />
+            ))}
           </Detail.Metadata.TagList>
           <Detail.Metadata.Link title="Readme" target={e.readme_url} text="Open README" />
           <Detail.Metadata.Link title="Source Code" target={e.source_url} text="View Source" />

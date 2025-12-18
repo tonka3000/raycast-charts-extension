@@ -52,6 +52,7 @@ export interface Extension {
   previous_days_downloads?: number[];
   api_version?: string;
   is_new: boolean;
+  platforms?: string[];
 }
 
 export interface Data {

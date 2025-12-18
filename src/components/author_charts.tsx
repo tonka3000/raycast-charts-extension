@@ -150,7 +150,9 @@ function AuthorDetail(props: { user: UserData }): ReactElement {
           <InstallsMetaData1Day user={u} />
           <InstallsMetaData7Day user={u} />
           <Detail.Metadata.TagList title={`Extensions (${u.extensions.length})`}>
-            {u.extensions?.map((e) => <Detail.Metadata.TagList.Item key={e.id} text={e.title} />)}
+            {u.extensions?.map((e) => (
+              <Detail.Metadata.TagList.Item key={e.id} text={e.title} />
+            ))}
           </Detail.Metadata.TagList>
         </Detail.Metadata>
       }
