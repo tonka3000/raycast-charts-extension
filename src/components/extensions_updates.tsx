@@ -52,7 +52,7 @@ const filterMap: Record<
   "7_days": (exts) => filterByDays(exts, 7),
 };
 
-export function ExtensionUpdatesToday(): JSX.Element {
+export function ExtensionUpdatesToday() {
   const { extensions, isLoading } = useExtensions();
   const [filterMode, setFilterMode] = useState<string>("today");
   const exts = sortExtensionByDownloads(extensions);

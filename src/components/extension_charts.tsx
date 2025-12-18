@@ -6,7 +6,7 @@ import { combineUserData, ShowAuthorDetailAction, UserData } from "./author_char
 import { LineChart } from "./chart";
 import { renderToBase64String } from "../lib/svg";
 
-function InstallAction(props: { extension: Extension }): JSX.Element {
+function InstallAction(props: { extension: Extension }) {
   const e = props.extension;
   const url = `raycast://extensions/${e.author.handle}/${e.name}?source=webstore`;
   return <Action.Open title="Install Extension" target={url} icon={{ source: Icon.Download }} />;
@@ -119,7 +119,7 @@ export function ExtensionList(props: {
   );
 }
 
-export function ExtensionChartsPerDownload(): JSX.Element {
+export function ExtensionChartsPerDownload() {
   const { extensions, isLoading } = useExtensions();
   const exts = sortExtensionByDownloads(extensions);
   return <ExtensionList extensions={exts} isLoading={isLoading} />;

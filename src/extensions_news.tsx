@@ -1,5 +1,5 @@
 import { ExtensionUpdatesToday } from "./components/extensions_updates";
 
-export default function ExtensionsTodayRoot(): JSX.Element {
+export default function ExtensionsTodayRoot() {
   return <ExtensionUpdatesToday />;
 }

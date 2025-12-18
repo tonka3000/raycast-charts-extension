@@ -1,5 +1,5 @@
 import { AuthorChartsPerDownload } from "./components/author_charts";
 
-export default function ChartsRoot(): JSX.Element {
+export default function ChartsRoot() {
   return <AuthorChartsPerDownload />;
 }

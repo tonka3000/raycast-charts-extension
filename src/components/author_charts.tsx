@@ -66,7 +66,7 @@ const sortMap: Record<string, (a: UserData, b: UserData) => number> = {
     b.growth_last_week.download_change_percentage - a.growth_last_week.download_change_percentage,
 };
 
-export function AuthorChartsPerDownload(): JSX.Element {
+export function AuthorChartsPerDownload() {
   const { extensions, isLoading } = useExtensions();
   const usersRaw = combineUserData(extensions);
   const [sortmode, setSortmode] = useState<string>("Total Installs");
